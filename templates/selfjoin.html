@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center><h1>here showing EMP & DEPT for Selfjoin , one-many relation in one table</h1>
+    <table border="4px">
+        <tr>
+            <th>Empno</th>
+            <th>Ename</th>
+            <th>sal</th>
+            <th>Mgr</th>
+            <th>M-empno</th>
+            <th>deptno</th>
+           
+        </tr>
+        {% for eo in EMobjects %}
+            <tr>
+                <td>{{eo.empno}}</td>
+                <td>{{eo.ename}}</td>
+                <td>{{eo.sal}}</td>
+                <td>{{eo.mgr.ename}}</td>
+                <td>{{eo.mgr.empno}}</td>
+                <td>{{eo.deptno.deptno}}</td>
+                
+                
+            </tr>
+
+        {% endfor %}
+    </table>
+    
+    
+    </center>
+</body>
+</html>
