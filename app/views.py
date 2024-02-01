@@ -2,6 +2,11 @@ from django.shortcuts import render
 from app.models import *
 # Create your views here.
 
+
+from django.db.models import Q
+
+
+ #--------Dispaly Two tables data-------------
 def equijoins(request):
 
     EMPOBJECTS=Emp.objects.select_related('deptno').all()
@@ -27,7 +32,7 @@ def equijoins(request):
 
 
 
-
+#--------Dispaly Self tables data, with relation cols-------------
 
 def selfjoin(request):
     EMobjects=Emp.objects.select_related('mgr').all()
@@ -53,3 +58,37 @@ def selfjoin(request):
 
     d={'EMobjects':EMobjects}
     return render(request,'selfjoin.html',d)
+
+
+
+  #--------Dispaly Three tables data-------------
+
+def emp_mgr_dept(request):
+
+    emd=Emp.objects.select_related('deptno','mgr').all()
+    emd=Emp.objects.select_related('mgr','deptno').filter(ename='ALLEN')
+    emd=Emp.objects.select_related('mgr','deptno').filter(ename='SMITH',deptno__dname='ACCOUNTING') #This is a AND operator , diffenitate with comma(,)
+    
+    emd=Emp.objects.select_related('mgr','deptno').filter(Q(ename='SMITH') | Q(deptno__dname='ACCOUNTING'))#This is a OR operator , 1st import Q and diffenitate with pipe(|)
+    emd=Emp.objects.select_related('mgr','deptno').filter(Q(ename='KING') | Q(deptno__dname='RESEARCH'))
+    emd=Emp.objects.select_related('mgr','deptno').filter(ename='KING',deptno__dname='RESEARCH')
+    emd=Emp.objects.select_related('mgr','deptno').filter(ename='KING',deptno__dname='ACCOUNTING')
+    emd=Emp.objects.select_related('mgr','deptno').filter(ename='KING',deptno__deptno='10')
+    emd=Emp.objects.select_related('mgr','deptno').filter(ename='KING',deptno='10')
+    emd=Emp.objects.select_related('mgr','deptno').filter(ename='KING',deptno__dname='SALES')
+    emd=Emp.objects.select_related('mgr','deptno').filter(Q(ename='KING') | Q(deptno__dname='SALES'))
+
+
+
+    emd=Emp.objects.select_related('mgr','deptno').filter(Q(ename='KING') | Q(sal__gt=4500)) #king actual salary 5000
+    emd=Emp.objects.select_related('mgr','deptno').filter(ename='KING',sal__gt=1000)
+    emd=Emp.objects.select_related('mgr','deptno').filter(ename='ALLEN',mgr__ename='BLAKE')
+    emd=Emp.objects.select_related('mgr','deptno').filter(ename='KING',deptno__deptno='20')
+    emd=Emp.objects.select_related('mgr','deptno').filter(Q(ename='KING') | Q(comm__lte=0))
+    emd=Emp.objects.select_related('mgr','deptno').filter(~Q(ename='KING')) #   ~Q is a not EQUALSTO OPERATOR(!=)
+    emd=Emp.objects.select_related('deptno','mgr').all()
+
+
+
+    d={'emd':emd}
+    return render(request,'emp-mgr-dept.html',d)

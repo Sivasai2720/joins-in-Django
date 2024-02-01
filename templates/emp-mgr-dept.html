@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <center>
+        <h1>emp_mgr_dept</h1>
+
+
+
+        <table border="3px">
+            <tr>
+                <th>E_Empno</th>
+                <th>E_Ename</th>  <!---    E means Emp, M means mgr, D means Dept , just for understanding taking here-->
+                <th>M_MGR_Empno</th>
+                <th>M_MGR_ENAME</th>
+                <th>D_Deptno</th>
+                <th>D_Dname</th>
+                  
+                
+                
+            </tr>
+
+            {% for e in emd %}
+                <tr>
+                    <td>{{e.empno}}</td>
+                    <td>{{e.ename}}</td>
+                    <td>{{e.mgr.empno}}</td>
+                    <td>{{e.mgr.ename}}</td>
+                    <td>{{e.deptno.deptno}}</td>
+                    <td>{{e.deptno.dname}}</td>
+                
+                </tr>
+            {% endfor %}
+
+
+
+        </table>
+    </center>
+</body>
+</html>
